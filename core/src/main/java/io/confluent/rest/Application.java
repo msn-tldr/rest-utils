@@ -131,6 +131,8 @@ public abstract class Application<T extends RestConfig> {
 
     // %{ms}T logs request time in milliseconds
     requestLog = new CustomRequestLog(logWriter, CustomRequestLog.EXTENDED_NCSA_FORMAT + " %{ms}T");
+    log.error("MSN-rest-utils: ** rest-utils updated");
+    System.out.println("MSN-rest-utils: ** rest-utils updated");
   }
 
   public final String getPath() {

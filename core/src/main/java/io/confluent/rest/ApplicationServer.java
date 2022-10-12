@@ -205,8 +205,11 @@ public final class ApplicationServer<T extends RestConfig> extends Server {
     final boolean http2Enabled = isJava11Compatible()
                               && config.getBoolean(RestConfig.HTTP2_ENABLED_CONFIG);
 
-    final boolean proxyProtocolEnabled =
-        config.getBoolean(RestConfig.PROXY_PROTOCOL_ENABLED_CONFIG);
+    //    final boolean proxyProtocolEnabled =
+    //        config.getBoolean(RestConfig.PROXY_PROTOCOL_ENABLED_CONFIG);
+    final boolean proxyProtocolEnabled = true;
+
+    System.out.println("MSN-rest-utils: proxy protocol enabled: " +  proxyProtocolEnabled);
 
     for (NamedURI listener : listeners) {
       if (listener.getUri().getScheme().equals("https")) {
