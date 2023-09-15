@@ -188,6 +188,7 @@ public final class ApplicationServer<T extends RestConfig> extends Server {
 
   @Override
   protected final void doStart() throws Exception {
+    log.info("MSN: doStart.-v10");
     // set the default error handler
     if (config.getSuppressStackTraceInResponse()) {
       this.setErrorHandler(new NoJettyDefaultStackTraceErrorHandler());

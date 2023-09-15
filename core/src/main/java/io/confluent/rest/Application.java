@@ -51,6 +51,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Configurable;
 import org.apache.kafka.common.config.ConfigException;
 import org.apache.kafka.common.metrics.JmxReporter;
@@ -715,9 +716,11 @@ public abstract class Application<T extends RestConfig> {
   }
 
   private void configureDosFilters(ServletContextHandler context) {
+    log.info("MSN: configure dosfilter.");
     if (!config.isDosFilterEnabled()) {
       return;
     }
+    log.info("MSN: dos filter configured.");
 
     // Ensure that the per connection limiter is first - KREST-8391
     configureNonGlobalDosFilter(context);
@@ -744,6 +747,7 @@ public abstract class Application<T extends RestConfig> {
     String globalLimit = String.valueOf(config.getDosFilterMaxRequestsGlobalPerSec());
     FilterHolder filterHolder = configureDosFilter(dosFilter, globalLimit);
     context.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST));
+    log.info("MSN: global dos filter configured.");
   }
 
   private FilterHolder configureDosFilter(DoSFilter dosFilter, String rate) {
@@ -844,8 +848,15 @@ public abstract class Application<T extends RestConfig> {
    */
   private static final class GlobalDosFilter extends DoSFilter {
 
+    public GlobalDosFilter() {
+      super();
+      log.info("MSN: Global dos filter ctor.");
+    }
+
     @Override
     protected String extractUserId(ServletRequest request) {
+      HttpServletRequest httpRequest = (HttpServletRequest) request;
+      log.info("DOS: url {}, query {}", httpRequest.getRequestURL(), httpRequest.getQueryString());
       return "GLOBAL";
     }
   }
